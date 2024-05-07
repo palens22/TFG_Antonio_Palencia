@@ -3,19 +3,25 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using Unity.Collections;
+using UnityEngine.UI;
 
 public class WhiteboardMarker : MonoBehaviour
 {   
-    [SerializeField] private Transform _tip; 
-    [SerializeField] private int _penSize = 5;
+    public Transform _tip; 
+    //public int _penSize;
+    public Slider scaleSlider;
 
+    private float transformSlider;
     private Renderer _renderer;
     //private TouchColor other;
     private Color[] _colors;
     private float _tipHeight;
 
+    private int tip_bulk;
+
     private RaycastHit _touch;
     private Whiteboard _whiteboard;
+    private Vector3 scale;
     private Vector2 _touchPos,_lastTouchPos;
     private bool _touchedLastFrame;
     private Quaternion _lastTouchRot;
@@ -24,7 +30,8 @@ public class WhiteboardMarker : MonoBehaviour
     void Start()
     {
         _renderer = _tip.GetComponent<Renderer>();
-        _colors = Enumerable.Repeat(_renderer.material.color, _penSize * _penSize).ToArray();
+        tip_bulk = (int)(scale.x * 15);
+        _colors = Enumerable.Repeat(_renderer.material.color, tip_bulk * tip_bulk).ToArray();
         _tipHeight = _tip.localScale.y;
 
 
@@ -35,6 +42,7 @@ public class WhiteboardMarker : MonoBehaviour
     void Update()
     {
         Draw();
+        SliderChange();
     }
     private void Draw()
     {
@@ -48,20 +56,20 @@ public class WhiteboardMarker : MonoBehaviour
                 }
                 _touchPos = new Vector2(_touch.textureCoord.x, _touch.textureCoord.y);
 
-                var x = (int)(_touchPos.x * _whiteboard.textureSize.x - (_penSize/2));
-                var y = (int)(_touchPos.y * _whiteboard.textureSize.y - (_penSize/2));
+                var x = (int)(_touchPos.x * _whiteboard.textureSize.x - (tip_bulk/2));
+                var y = (int)(_touchPos.y * _whiteboard.textureSize.y - (tip_bulk/2));
 
                 if(y < 0 || y > _whiteboard.textureSize.y || x < 0 || x > _whiteboard.textureSize.x) return;
 
                 if(_touchedLastFrame){
 
-                    _whiteboard.texture.SetPixels(x,y,_penSize,_penSize, _colors);
+                    _whiteboard.texture.SetPixels(x,y,tip_bulk,tip_bulk, _colors);
 
                     for (float f = 0.01f; f < 1.00f; f+= 0.01f)
                     {
                         var lerpX = (int)Mathf.Lerp(_lastTouchPos.x,x,f);
                         var lerpY = (int)Mathf.Lerp(_lastTouchPos.y,y,f);
-                        _whiteboard.texture.SetPixels(lerpX,lerpY,_penSize,_penSize,_colors);
+                        _whiteboard.texture.SetPixels(lerpX,lerpY,tip_bulk,tip_bulk,_colors);
                     }
 
                     transform.rotation = _lastTouchRot;
@@ -71,6 +79,7 @@ public class WhiteboardMarker : MonoBehaviour
                 _lastTouchPos = new Vector2(x,y);
                 _lastTouchRot = transform.rotation;
                 _touchedLastFrame = true;
+                Debug.Log(tip_bulk);
                 return;
             }
             
@@ -87,8 +96,18 @@ public class WhiteboardMarker : MonoBehaviour
           if(collision.gameObject.tag == "ColorCube"){
                 var new_color = collision.transform.gameObject.GetComponent<Renderer>().material.color;
                 _renderer.material.color = new_color;
-                _colors = Enumerable.Repeat(_renderer.material.color, _penSize * _penSize).ToArray();
+                _colors = Enumerable.Repeat(_renderer.material.color, tip_bulk * tip_bulk).ToArray();
                 
             }
+    }
+    private void SliderChange()
+    {
+        transformSlider = scaleSlider.value;
+        scale = new Vector3(transformSlider, transformSlider, transformSlider);
+        this.transform.localScale = scale;
+        tip_bulk = (int)(scale.x * 15);
+        _colors = Enumerable.Repeat(_renderer.material.color, tip_bulk * tip_bulk).ToArray();
+        _tipHeight = _tip.localScale.y;
+
     }
 }
