@@ -9,7 +9,9 @@ public class WhiteBoardDrafter : MonoBehaviour
     public Transform _tip; 
     private int _penSize = 120;
     
-    private Renderer _renderer;
+    //private Renderer _renderer;
+    [HideInInspector]
+    public Renderer _renderer;
     //private TouchColor other;
     private Color[] _colors;
     private float _tipHeight;
@@ -22,8 +24,12 @@ public class WhiteBoardDrafter : MonoBehaviour
     private bool _touchedLastFrame;
     private Quaternion _lastTouchRot;
 
+    public Renderer GetRenderer()
+    {
+        return _renderer;
+    }
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         _renderer = _tip.GetComponent<Renderer>();
         _colors = Enumerable.Repeat(_renderer.material.color, _penSize * _penSize).ToArray();
