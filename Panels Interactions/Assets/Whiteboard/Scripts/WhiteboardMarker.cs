@@ -10,6 +10,7 @@ public class WhiteboardMarker : MonoBehaviour
     public Transform _tip; 
     //public int _penSize;
     public Slider scaleSlider;
+    public FlexibleColorPicker fcp;
 
     private float transformSlider;
     private Renderer _renderer;
@@ -40,9 +41,11 @@ public class WhiteboardMarker : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {
-        Draw();
+    {     
+        ColorChange();
         SliderChange();
+        Draw();
+        
     }
     private void Draw()
     {
@@ -79,7 +82,7 @@ public class WhiteboardMarker : MonoBehaviour
                 _lastTouchPos = new Vector2(x,y);
                 _lastTouchRot = transform.rotation;
                 _touchedLastFrame = true;
-                Debug.Log(tip_bulk);
+                //Debug.Log(tip_bulk);
                 return;
             }
             
@@ -108,6 +111,11 @@ public class WhiteboardMarker : MonoBehaviour
         tip_bulk = (int)(scale.x * 15);
         _colors = Enumerable.Repeat(_renderer.material.color, tip_bulk * tip_bulk).ToArray();
         _tipHeight = _tip.localScale.y;
+
+    }
+    private void ColorChange(){
+        _renderer.material.color = fcp.color;
+        _colors = Enumerable.Repeat(_renderer.material.color, tip_bulk * tip_bulk).ToArray();
 
     }
 }

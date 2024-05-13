@@ -8,8 +8,7 @@ TagManager:
   - ColorCube
   - Marker
   - Small_Marker
-  - Medium_Marker
-  - Big_Marker
+  - Draft
   layers:
   - Default
   - TransparentFX
