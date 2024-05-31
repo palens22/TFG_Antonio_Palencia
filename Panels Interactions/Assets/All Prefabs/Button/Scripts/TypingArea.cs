@@ -11,9 +11,9 @@ public class TypingArea : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject==leftHand)
+        if(other.transform.parent.gameObject==leftHand)
             leftTypingHand.SetActive(true);
-        if (other.gameObject == rightHand)
+        if (other.transform.parent.gameObject == rightHand)
             rightTypingHand.SetActive(true);
         /*
         GameObject hand;
@@ -37,9 +37,9 @@ public class TypingArea : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject == leftHand)
+        if (other.transform.parent.gameObject == leftHand)
             leftTypingHand.SetActive(false);
-        if (other.gameObject == rightHand)
+        if (other.transform.parent.gameObject == rightHand)
             rightTypingHand.SetActive(false);
         /*
         GameObject hand;
