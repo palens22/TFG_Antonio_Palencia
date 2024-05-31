@@ -90,6 +90,13 @@
      <Compile Include="Assets\Lets Make a VR Game\UI 3D Examples\UI_3D\Scripts\XRKnob.cs" />
      <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextSelector_B.cs" />
      <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexZoom.cs" />
+     <Compile Include="Assets\Scripts\Opiniones\ResultDelete.cs" />
+     <Compile Include="Assets\All Prefabs\Button\Scripts\ButtonVR.cs" />
+     <Compile Include="Assets\All Prefabs\Button\Scripts\KeyboardButton.cs" />
+     <Compile Include="Assets\All Prefabs\Button\Scripts\TypingArea.cs" />
+     <Compile Include="Assets\Scripts\Opiniones\ResaultSpawn.cs" />
+     <Compile Include="Assets\All Prefabs\Button\Scripts\Keyboard.cs" />
+     <Compile Include="Assets\Scripts\Opiniones\Opiniones.cs" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />
