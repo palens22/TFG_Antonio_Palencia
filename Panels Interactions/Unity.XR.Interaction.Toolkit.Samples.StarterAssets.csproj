@@ -684,26 +684,32 @@
     <Reference Include="System.Xml.Serialization">
         <HintPath>C:\Program Files\Unity 2021.3.0f1\Editor\Data\NetStandard\compat\2.1.0\shims\netfx\System.Xml.Serialization.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.InputSystem">
-        <HintPath>C:\Users\apcdp\OneDrive\Documents\GitHub\TFG_Palens\Panels Interactions\Library\ScriptAssemblies\Unity.InputSystem.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Mathematics">
-        <HintPath>C:\Users\apcdp\OneDrive\Documents\GitHub\TFG_Palens\Panels Interactions\Library\ScriptAssemblies\Unity.Mathematics.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.XR.CoreUtils">
-        <HintPath>C:\Users\apcdp\OneDrive\Documents\GitHub\TFG_Palens\Panels Interactions\Library\ScriptAssemblies\Unity.XR.CoreUtils.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.XR.Interaction.Toolkit">
-        <HintPath>C:\Users\apcdp\OneDrive\Documents\GitHub\TFG_Palens\Panels Interactions\Library\ScriptAssemblies\Unity.XR.Interaction.Toolkit.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEditor.UI">
-        <HintPath>C:\Users\apcdp\OneDrive\Documents\GitHub\TFG_Palens\Panels Interactions\Library\ScriptAssemblies\UnityEditor.UI.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.UI">
-        <HintPath>C:\Users\apcdp\OneDrive\Documents\GitHub\TFG_Palens\Panels Interactions\Library\ScriptAssemblies\UnityEngine.UI.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="Unity.InputSystem.csproj">
+      <Project>{7bf200fb-1e85-aa27-f597-ad34cf36af50}</Project>
+      <Name>Unity.InputSystem</Name>
+    </ProjectReference>
+    <ProjectReference Include="Unity.Mathematics.csproj">
+      <Project>{f7bec624-9910-1872-119c-1540d467bd54}</Project>
+      <Name>Unity.Mathematics</Name>
+    </ProjectReference>
+    <ProjectReference Include="Unity.XR.CoreUtils.csproj">
+      <Project>{d0413437-e157-cbe6-dc1e-32c5dc2ebf3c}</Project>
+      <Name>Unity.XR.CoreUtils</Name>
+    </ProjectReference>
+    <ProjectReference Include="Unity.XR.Interaction.Toolkit.csproj">
+      <Project>{434d3127-28f9-7e68-6ec4-ef08baca2f53}</Project>
+      <Name>Unity.XR.Interaction.Toolkit</Name>
+    </ProjectReference>
+    <ProjectReference Include="UnityEditor.UI.csproj">
+      <Project>{6bc0dda3-310d-dcfe-ea7f-653e8767a924}</Project>
+      <Name>UnityEditor.UI</Name>
+    </ProjectReference>
+    <ProjectReference Include="UnityEngine.UI.csproj">
+      <Project>{25db6e4b-3cc1-be43-6f16-aec3c611d027}</Project>
+      <Name>UnityEngine.UI</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

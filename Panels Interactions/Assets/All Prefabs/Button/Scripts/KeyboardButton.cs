@@ -9,6 +9,10 @@ public class KeyboardButton : MonoBehaviour
     Keyboard keyboard;
     TextMeshProUGUI buttonText;
 
+    private bool bold;
+    private bool italic; 
+    private bool underlined;    
+
     private void Start()
     {
         keyboard = GetComponentInParent<Keyboard>();
@@ -18,6 +22,7 @@ public class KeyboardButton : MonoBehaviour
         if (buttonText.text.Length == 1)
         {
             NameToButtonText();
+            
             GetComponentInChildren<ButtonVR>().onRelease.AddListener(delegate { keyboard.InsertChar(buttonText.text); });
         }
     }
