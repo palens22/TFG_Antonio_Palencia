@@ -10,10 +10,12 @@ public class DropdownPicker : MonoBehaviour
     public TextMeshProUGUI textBox;
 
 
+
+
     // Start is called before the first frame update
     void Start()
     {
-        Dropdown dropdown = transform.GetComponent<Dropdown>();
+        TMP_Dropdown dropdown = transform.GetComponent<TMP_Dropdown>();
 
         dropdown.options.Clear();
 
@@ -22,16 +24,17 @@ public class DropdownPicker : MonoBehaviour
         items.Add("16");
         items.Add("18");
 
-        foreach (var item in items)
-        {
-            dropdown.options.Add(new Dropdown.OptionData(){text = item});
-        } 
-
+        
+        // foreach (var item in items)
+        // {
+        //     dropdown.options.Add(new Dropdown.OptionData(){text = item});
+        // } 
+        dropdown.AddOptions(items);
         DropdownItemSelected(dropdown);
         dropdown.onValueChanged.AddListener(delegate {DropdownItemSelected(dropdown); });
     }
     
-    void DropdownItemSelected(Dropdown dropdown){
+    void DropdownItemSelected(TMP_Dropdown dropdown){
         int index = dropdown.value;
         int Font = int.Parse(dropdown.options[index].text);
 

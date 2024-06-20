@@ -393,6 +393,7 @@
 "Assets/FlexibleColorPicker/Scripts/FlexibleColorPicker.cs"
 "Assets/HandData.cs"
 "Assets/HandPainter.cs"
+"Assets/HoldPosition.cs"
 "Assets/Lets Make a VR Game/Oculus Hands/Scripts/AnimateHandOnInput.cs"
 "Assets/Lets Make a VR Game/UI 3D Examples/UI_3D/Scripts/ClawMachine/ClawMachine.cs"
 "Assets/Lets Make a VR Game/UI 3D Examples/UI_3D/Scripts/ClawMachine/FlippyDoor.cs"

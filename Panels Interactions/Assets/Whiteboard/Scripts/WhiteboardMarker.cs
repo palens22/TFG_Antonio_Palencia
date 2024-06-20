@@ -49,9 +49,66 @@ public class WhiteboardMarker : MonoBehaviour
     }
     private void Draw()
     {
-        if(Physics.Raycast(_tip.position, transform.up, out _touch, _tipHeight))
+        if(Physics.Raycast(_tip.position, transform.TransformDirection(Vector3.up), out _touch, _tipHeight))
         {
-            if(_touch.transform.CompareTag("Whiteboard"))
+            RaycastPixels();
+        }
+        else if (Physics.Raycast(_tip.position, transform.TransformDirection(Vector3.forward), out _touch, _tipHeight))
+        {
+            RaycastPixels();
+
+        }
+        else if (Physics.Raycast(_tip.position, transform.TransformDirection(Vector3.right), out _touch, _tipHeight))
+        {   
+            RaycastPixels();
+        }
+        else if (Physics.Raycast(_tip.position, transform.TransformDirection(Vector3.left), out _touch, _tipHeight))
+        {   
+            
+            RaycastPixels();
+
+        }
+
+        else if (Physics.Raycast(_tip.position, transform.TransformDirection(Vector3.back), out _touch, _tipHeight))
+        {   
+            RaycastPixels();
+        }
+        else 
+        {
+        _whiteboard = null;
+        _touchedLastFrame = false;
+        }
+        
+
+
+    }
+    private void OnCollisionEnter(Collision collision){
+          if(collision.gameObject.tag == "ColorCube"){
+                var new_color = collision.transform.gameObject.GetComponent<Renderer>().material.color;
+                _renderer.material.color = new_color;
+                _colors = Enumerable.Repeat(_renderer.material.color, tip_bulk * tip_bulk).ToArray();
+                
+            }
+    }
+    private void SliderChange()
+    {
+        transformSlider = scaleSlider.value;
+        scale = new Vector3(transformSlider, transformSlider, transformSlider);
+        this.transform.localScale = scale;
+        tip_bulk = (int)(scale.x * 15);
+        _colors = Enumerable.Repeat(_renderer.material.color, tip_bulk * tip_bulk).ToArray();
+        _tipHeight = _tip.localScale.y;
+
+    }
+    private void ColorChange(){
+        _renderer.material.color = fcp.color;
+        _colors = Enumerable.Repeat(_renderer.material.color, tip_bulk * tip_bulk).ToArray();
+
+    }
+    private void RaycastPixels()
+    {
+
+         if(_touch.transform.CompareTag("Whiteboard"))
             {
                 if(_whiteboard ==null )
                 {
@@ -82,40 +139,12 @@ public class WhiteboardMarker : MonoBehaviour
                 _lastTouchPos = new Vector2(x,y);
                 _lastTouchRot = transform.rotation;
                 _touchedLastFrame = true;
-                //Debug.Log(tip_bulk);
                 return;
             }
             
-
-            
-
-        }
-
+        
         _whiteboard = null;
         _touchedLastFrame = false;
-
-    }
-    private void OnCollisionEnter(Collision collision){
-          if(collision.gameObject.tag == "ColorCube"){
-                var new_color = collision.transform.gameObject.GetComponent<Renderer>().material.color;
-                _renderer.material.color = new_color;
-                _colors = Enumerable.Repeat(_renderer.material.color, tip_bulk * tip_bulk).ToArray();
-                
-            }
-    }
-    private void SliderChange()
-    {
-        transformSlider = scaleSlider.value;
-        scale = new Vector3(transformSlider, transformSlider, transformSlider);
-        this.transform.localScale = scale;
-        tip_bulk = (int)(scale.x * 15);
-        _colors = Enumerable.Repeat(_renderer.material.color, tip_bulk * tip_bulk).ToArray();
-        _tipHeight = _tip.localScale.y;
-
-    }
-    private void ColorChange(){
-        _renderer.material.color = fcp.color;
-        _colors = Enumerable.Repeat(_renderer.material.color, tip_bulk * tip_bulk).ToArray();
-
+            
     }
 }
