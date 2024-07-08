@@ -60,6 +60,7 @@
      <Compile Include="Assets\Lets Make a VR Game\UI 3D Examples\UI_3D\Scripts\XRGripButton.cs" />
      <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TextMeshSpawner.cs" />
      <Compile Include="Assets\HandPainter.cs" />
+     <Compile Include="Assets\PainterGood.cs" />
      <Compile Include="Assets\Lets Make a VR Game\UI 3D Examples\UI_3D\Scripts\ClawMachine\FlippyDoor.cs" />
      <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexJitter.cs" />
      <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextEventHandler.cs" />

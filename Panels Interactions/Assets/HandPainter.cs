@@ -4,6 +4,9 @@ using UnityEngine;
 using System.Linq;
 using Unity.Collections;
 using UnityEngine.UI;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.XR;
+using UnityEngine.XR.OpenXR.Input;
 
 public class HandPainter : MonoBehaviour
 {   
@@ -32,17 +35,24 @@ public class HandPainter : MonoBehaviour
     private Vector2 _touchPos,_lastTouchPos;
     private bool _touchedLastFrame, activated;
     private Quaternion _lastTouchRot;
+    private InputAction drawAction;
+    public float rayLength = 5f; // Length of the ray
+
+    private LineRenderer _lineRenderer;
 
     // Start is called before the first frame update
     void Start()
     {                   
         activated = false;
         _renderer = _tip.GetComponent<Renderer>();
-        tip_bulk = (int)(scale.x * 15);
+        tip_bulk = 15;
         _colors = Enumerable.Repeat(_renderer.material.color, tip_bulk * tip_bulk).ToArray();
         _tipHeight = _tip.localScale.y;
+        _lineRenderer = GetComponent<LineRenderer>();
 
-
+           // Initialize the input action for the trigger button
+        drawAction = new InputAction(type: InputActionType.Button, binding: "<XRController>{RightHand}/primaryButton");
+        drawAction.Enable();
         
     }
 
@@ -51,34 +61,40 @@ public class HandPainter : MonoBehaviour
     {
         Draft();
         ColorChangeHP();
-        SliderChangeHP();
-        
+        Draw();
+
     }
     private void Draft()
     {
         if (Physics.Raycast(_tip.position, transform.TransformDirection(Vector3.up), out _touch, _tipHeight, whiteboardMask))
-        {
+        {   
+            Debug.DrawRay(_tip.position, transform.TransformDirection(Vector3.up) * 20, Color.red);
             Pintar();
         }
         else if (Physics.Raycast(_tip.position, transform.TransformDirection(Vector3.forward), out _touch, _tipHeight, whiteboardMask))
-        {
+        {   
+            Debug.DrawRay(_tip.position, transform.TransformDirection(Vector3.forward) * 20, Color.blue);
             Pintar();
         }
         else if (Physics.Raycast(_tip.position, transform.TransformDirection(Vector3.right), out _touch, _tipHeight, whiteboardMask))
         {   
+            Debug.DrawRay(_tip.position, transform.TransformDirection(Vector3.right) * 20, Color.green);
             Pintar();
         }
         else if (Physics.Raycast(_tip.position, transform.TransformDirection(Vector3.left), out _touch, _tipHeight, whiteboardMask))
         {   
+            Debug.DrawRay(_tip.position, transform.TransformDirection(Vector3.left) * 20, Color.white);
             Pintar();
         }
 
         else if (Physics.Raycast(_tip.position, transform.TransformDirection(Vector3.back), out _touch, _tipHeight, whiteboardMask))
         {   
+            Debug.DrawRay(_tip.position, transform.TransformDirection(Vector3.back) * 20, Color.black);
             Pintar();
         }
         else if (Physics.Raycast(_tip.position, transform.TransformDirection(Vector3.down), out _touch, _tipHeight, whiteboardMask))
         {   
+            Debug.DrawRay(_tip.position, transform.TransformDirection(Vector3.down) * 20, Color.yellow);
             Pintar();
         }
         else 
@@ -105,12 +121,14 @@ public class HandPainter : MonoBehaviour
 
             HandMarker.SetActive(true);
             Marker.SetActive(false);
+            scaleSlider.gameObject.SetActive(false);
             activated = true;
         }
         else
         {
             HandMarker.SetActive(false);
             Marker.SetActive(true);
+            scaleSlider.gameObject.SetActive(true);
             activated = false;
         }
     }
@@ -129,6 +147,24 @@ public class HandPainter : MonoBehaviour
         _renderer.material.color = fcp.color;
         _colors = Enumerable.Repeat(_renderer.material.color, tip_bulk * tip_bulk).ToArray();
 
+    }
+    private void Draw()
+    {
+        // Check if the draw action is pressed
+        if (drawAction.ReadValue<float>() > 0.1f)
+        {
+            // Perform the raycast to paint from a distance
+            if (Physics.Raycast(_tip.position, transform.TransformDirection(Vector3.up), out _touch, rayLength, whiteboardMask))
+            {
+                Pintar();
+                Debug.Log("Button A pressed");
+            }
+        }
+        //else
+        //{
+        //    _whiteboard = null;
+        //    _touchedLastFrame = false;
+        //}
     }
     private void Pintar()
     {

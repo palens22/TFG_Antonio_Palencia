@@ -23,7 +23,7 @@ public class Keyboard : MonoBehaviour
     [SerializeField] TextMeshProUGUI userPostit;
 
 
-    private string textSaved, aux_text, aux_text2, aux_text3, aux_text4;
+    private string textSaved, aux_text, styles;
     private bool caps, bold, italic, underline, bangers, roboto, anton, liberation, emote;
 
     // Start is called before the first frame update
@@ -82,7 +82,7 @@ public class Keyboard : MonoBehaviour
         DateTime dt = DateTime.Now;
 
         datePostit.text = dt.ToString("dd-MM-yyyy");
-        userPostit.text = "User: Prueba" /*+ PruebaJSON.recoverUserName("0")*/;
+        userPostit.text = "User: Tester";
     }
 
     public void CapsPressed()
@@ -260,3 +260,7 @@ public class Keyboard : MonoBehaviour
     
    }
 }
+
+
+ 
+
