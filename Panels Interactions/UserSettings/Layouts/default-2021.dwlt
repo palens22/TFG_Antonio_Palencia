@@ -120,7 +120,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 200}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 0
-  controlID: 19965
+  controlID: 63
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -145,7 +145,7 @@ MonoBehaviour:
   m_MinSize: {x: 100, y: 200}
   m_MaxSize: {x: 8096, y: 16192}
   vertical: 1
-  controlID: 19966
+  controlID: 152
 --- !u!114 &7
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -223,7 +223,7 @@ MonoBehaviour:
   m_MinSize: {x: 100, y: 200}
   m_MaxSize: {x: 8096, y: 16192}
   vertical: 1
-  controlID: 19837
+  controlID: 18
 --- !u!114 &10
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -243,8 +243,8 @@ MonoBehaviour:
     y: 0
     width: 313
     height: 467
-  m_MinSize: {x: 201, y: 221}
-  m_MaxSize: {x: 4001, y: 4021}
+  m_MinSize: {x: 202, y: 221}
+  m_MaxSize: {x: 4002, y: 4021}
   m_ActualView: {fileID: 16}
   m_Panes:
   - {fileID: 16}
@@ -519,7 +519,7 @@ MonoBehaviour:
       index: 10
       layout: 4
   m_WindowGUID: 365af50bce40c094a9cb6503d753ed64
-  m_Gizmos: 0
+  m_Gizmos: 1
   m_OverrideSceneCullingMask: 6917529027641081856
   m_SceneIsLit: 1
   m_SceneLighting: 1
@@ -528,9 +528,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 0.65206575, y: 0.21147776, z: 0.6822728}
+    m_Target: {x: -0.40853417, y: 1.0395598, z: 1.4597046}
     speed: 2
-    m_Value: {x: 0.65206575, y: 0.21147776, z: 0.6822728}
+    m_Value: {x: -0.5340399, y: 1.0719, z: 1.4612765}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -577,13 +577,13 @@ MonoBehaviour:
     m_GridAxis: 1
     m_gridOpacity: 0.5
   m_Rotation:
-    m_Target: {x: -0.25770497, y: 0.48109794, z: -0.15040205, w: -0.8243195}
+    m_Target: {x: 0.03143011, y: 0.96465313, z: 0.13544875, w: -0.223834}
     speed: 2
-    m_Value: {x: -0.25748032, y: 0.4823362, z: -0.15078917, w: -0.8236009}
+    m_Value: {x: 0.031430244, y: 0.96465725, z: 0.13544933, w: -0.22383495}
   m_Size:
-    m_Target: 2.7078152
+    m_Target: 0.8502286
     speed: 2
-    m_Value: 2.7078152
+    m_Value: 0.89029175
   m_Ortho:
     m_Target: 0
     speed: 2
@@ -813,24 +813,24 @@ MonoBehaviour:
     m_SaveData: []
   m_SceneHierarchy:
     m_TreeViewState:
-      scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: ee6e0000
-      m_LastClickedID: 28398
-      m_ExpandedIDs: a090fbffac90fbffcaf5ffff34fbffff2c6e0000d26e0000
+      scrollPos: {x: 0, y: 271}
+      m_SelectedIDs: 68f5ffff
+      m_LastClickedID: -2712
+      m_ExpandedIDs: 34fbffff326e00007a6e0000de6e0000606f0000
       m_RenameOverlay:
         m_UserAcceptedRename: 0
-        m_Name: 
-        m_OriginalName: 
+        m_Name: DejarOpiniones 1
+        m_OriginalName: DejarOpiniones 1
         m_EditFieldRect:
           serializedVersion: 2
           x: 0
           y: 0
           width: 0
           height: 0
-        m_UserData: 0
+        m_UserData: -2390
         m_IsWaitingForDelay: 0
         m_IsRenaming: 0
-        m_OriginalEventType: 11
+        m_OriginalEventType: 0
         m_IsRenamingFilename: 0
         m_ClientGUIView: {fileID: 10}
       m_SearchString: 
@@ -894,9 +894,9 @@ MonoBehaviour:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 149}
-    m_SelectedIDs: 90a20000
-    m_LastClickedID: 41616
-    m_ExpandedIDs: 000000004ea2000050a2000052a2000054a2000056a2000058a200005aa200005ca200005ea2000060a2000062a2000064a2000066a2000000ca9a3b
+    m_SelectedIDs: c2a20000
+    m_LastClickedID: 41666
+    m_ExpandedIDs: 0000000070a2000072a2000074a2000076a2000078a200007aa200007ca200007ea2000080a2000082a2000084a2000086a2000088a2000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -924,7 +924,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 000000004ea2000050a2000052a2000054a2000056a2000058a200005aa200005ca200005ea2000060a2000062a2000064a2000066a2000000ca9a3b
+    m_ExpandedIDs: 0000000070a2000072a2000074a2000076a2000078a200007aa200007ca200007ea2000080a2000082a2000084a2000086a2000088a20000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
