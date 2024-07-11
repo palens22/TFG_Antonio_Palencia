@@ -6,29 +6,29 @@ using Unity.Collections;
 
 public class WhiteBoardDrafter : MonoBehaviour
 {   
-    public Transform _tip; 
-    private int _penSize = 130;
+    public Transform point; 
+    private int PenSize = 130;
     
     [HideInInspector]
-    public Renderer _renderer;
+    public Renderer render;
     //private TouchColor other;
-    private Color[] _colors;
-    private float _tipHeight;
+    private Color[] colors;
+    private float pointHeight;
 
     private int tip_bulk;
 
-    private RaycastHit _touch;
-    private Whiteboard _whiteboard;
-    private Vector2 _touchPos,_lastTouchPos;
-    private bool _touchedLastFrame;
-    private Quaternion _lastTouchRot;
+    private RaycastHit touch;
+    private Whiteboard whiteboard;
+    private Vector2 Postouch,LastPosTouched;
+    private bool LastFrameTouched;
+    private Quaternion LastRotTouched;
 
     // Start is called before the first frame update
     void Awake()
     {
-        _renderer = _tip.GetComponent<Renderer>();
-        _colors = Enumerable.Repeat(_renderer.material.color, _penSize * _penSize).ToArray();
-        _tipHeight = _tip.localScale.y;
+        render = point.GetComponent<Renderer>();
+        colors = Enumerable.Repeat(render.material.color, PenSize * PenSize).ToArray();
+        pointHeight = point.localScale.y;
 
 
         
@@ -41,39 +41,39 @@ public class WhiteBoardDrafter : MonoBehaviour
     }
     private void Draft()
     {
-        if(Physics.Raycast(_tip.position, transform.up, out _touch, _tipHeight))
+        if(Physics.Raycast(point.position, transform.up, out touch, pointHeight))
         {
-            if(_touch.transform.CompareTag("Whiteboard"))
+            if(touch.transform.CompareTag("Whiteboard"))
             {
-                if(_whiteboard ==null )
+                if(whiteboard ==null )
                 {
-                    _whiteboard = _touch.transform.GetComponent<Whiteboard>();
+                    whiteboard = touch.transform.GetComponent<Whiteboard>();
                 }
-                _touchPos = new Vector2(_touch.textureCoord.x, _touch.textureCoord.y);
+                Postouch = new Vector2(touch.textureCoord.x, touch.textureCoord.y);
 
-                var x = (int)(_touchPos.x * _whiteboard.textureSize.x - (_penSize/2));
-                var y = (int)(_touchPos.y * _whiteboard.textureSize.y - (_penSize/2));
+                var x = (int)(Postouch.x * whiteboard.textureSize.x - (PenSize/2));
+                var y = (int)(Postouch.y * whiteboard.textureSize.y - (PenSize/2));
 
-                if(y < 0 || y > _whiteboard.textureSize.y || x < 0 || x > _whiteboard.textureSize.x) return;
+                if(y < 0 || y > whiteboard.textureSize.y || x < 0 || x > whiteboard.textureSize.x) return;
 
-                if(_touchedLastFrame){
+                if(LastFrameTouched){
 
-                    _whiteboard.texture.SetPixels(x,y,_penSize,_penSize, _colors);
+                    whiteboard.texture.SetPixels(x,y,PenSize,PenSize, colors);
 
                     for (float f = 0.01f; f < 1.00f; f+= 0.01f)
                     {
-                        var lerpX = (int)Mathf.Lerp(_lastTouchPos.x,x,f);
-                        var lerpY = (int)Mathf.Lerp(_lastTouchPos.y,y,f);
-                        _whiteboard.texture.SetPixels(lerpX,lerpY,_penSize,_penSize,_colors);
+                        var lerpX = (int)Mathf.Lerp(LastPosTouched.x,x,f);
+                        var lerpY = (int)Mathf.Lerp(LastPosTouched.y,y,f);
+                        whiteboard.texture.SetPixels(lerpX,lerpY,PenSize,PenSize,colors);
                     }
 
-                    transform.rotation = _lastTouchRot;
+                    transform.rotation = LastRotTouched;
                     
-                    _whiteboard.texture.Apply();
+                    whiteboard.texture.Apply();
                 }
-                _lastTouchPos = new Vector2(x,y);
-                _lastTouchRot = transform.rotation;
-                _touchedLastFrame = true;
+                LastPosTouched = new Vector2(x,y);
+                LastRotTouched = transform.rotation;
+                LastFrameTouched = true;
                 return;
             }
             
@@ -82,8 +82,8 @@ public class WhiteBoardDrafter : MonoBehaviour
 
         }
 
-        _whiteboard = null;
-        _touchedLastFrame = false;
+        whiteboard = null;
+        LastFrameTouched = false;
 
     }
 }

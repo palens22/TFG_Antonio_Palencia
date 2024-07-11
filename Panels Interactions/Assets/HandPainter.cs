@@ -10,46 +10,45 @@ using UnityEngine.XR.OpenXR.Input;
 
 public class HandPainter : MonoBehaviour
 {   
-    public Transform _tip; 
+    public Transform _point; 
 
     [SerializeField] GameObject HandMarker;
 
     [SerializeField] GameObject Marker;
     
     [HideInInspector]
-    public Renderer _renderer;
+    public Renderer render;
     public LayerMask whiteboardMask;
     public Slider scaleSlider;
     public FlexibleColorPicker fcp;
-    //private TouchColor other;
-    private float transformSlider;
-    private Color[] _colors;
-    private float _tipHeight;
-
+    //private touchColor other;
+    private float transformSlider, _pointHeight;
+    private Color[] colors;
     private int tip_bulk;
 
     private Vector3 scale;
 
-    private RaycastHit _touch, hit;
-    private Whiteboard _whiteboard;
-    private Vector2 _touchPos,_lastTouchPos, _lasthitPos, hitPos;
-    private bool _touchedLastFrame, activated, hitLastFrame;
-    private Quaternion _lastTouchRot, _lasthitRot;
+    private RaycastHit touch, hit;
+    private Whiteboard whiteboard;
+    private Vector2 Postouch,LastPostouched, LastPosHitted, Posthits;
+    private bool LastFrametouched, activated, hitLastFrame;
+    private Quaternion LastRottouched, LastRotHitted;
+    
     private InputAction drawAction;
-    public float rayLength = 15f; // Length of the ray
+
+    public float rayLength = 5f; // Length of the ray
 
     private LineRenderer _lineRenderer;
-
     // Start is called before the first frame update
     void Start()
     {                   
         activated = false;
-        _renderer = _tip.GetComponent<Renderer>();
+        render = _point.GetComponent<Renderer>();
         tip_bulk = 15;
-        _colors = Enumerable.Repeat(_renderer.material.color, tip_bulk * tip_bulk).ToArray();
-        _tipHeight = _tip.localScale.y;
-        _lineRenderer = GetComponent<LineRenderer>();
+        colors = Enumerable.Repeat(render.material.color, tip_bulk * tip_bulk).ToArray();
+        _pointHeight = _point.localScale.y;
 
+        _lineRenderer = GetComponent<LineRenderer>();
            // Initialize the input action for the trigger button
         drawAction = new InputAction(type: InputActionType.Button, binding: "<XRController>{RightHand}/primaryButton");
         drawAction.Enable();
@@ -60,56 +59,51 @@ public class HandPainter : MonoBehaviour
     void Update()
     {
         Draft();
-        ColorChangeHP();
         Draw();
+        ColorChangeHP();
+       
 
     }
     private void Draft()
     {
-        if (Physics.Raycast(_tip.position, transform.TransformDirection(Vector3.up), out _touch, _tipHeight, whiteboardMask))
+        if (Physics.Raycast(_point.position, transform.TransformDirection(Vector3.up), out touch, _pointHeight, whiteboardMask))
         {   
-            Debug.DrawRay(_tip.position, transform.TransformDirection(Vector3.up) * 20, Color.red);
             Pintar();
         }
-        else if (Physics.Raycast(_tip.position, transform.TransformDirection(Vector3.forward), out _touch, _tipHeight, whiteboardMask))
+        else if (Physics.Raycast(_point.position, transform.TransformDirection(Vector3.forward), out touch, _pointHeight, whiteboardMask))
         {   
-            Debug.DrawRay(_tip.position, transform.TransformDirection(Vector3.forward) * 20, Color.blue);
             Pintar();
         }
-        else if (Physics.Raycast(_tip.position, transform.TransformDirection(Vector3.right), out _touch, _tipHeight, whiteboardMask))
+        else if (Physics.Raycast(_point.position, transform.TransformDirection(Vector3.right), out touch, _pointHeight, whiteboardMask))
         {   
-            Debug.DrawRay(_tip.position, transform.TransformDirection(Vector3.right) * 20, Color.green);
             Pintar();
         }
-        else if (Physics.Raycast(_tip.position, transform.TransformDirection(Vector3.left), out _touch, _tipHeight, whiteboardMask))
+        else if (Physics.Raycast(_point.position, transform.TransformDirection(Vector3.left), out touch, _pointHeight, whiteboardMask))
         {   
-            Debug.DrawRay(_tip.position, transform.TransformDirection(Vector3.left) * 20, Color.white);
             Pintar();
         }
 
-        else if (Physics.Raycast(_tip.position, transform.TransformDirection(Vector3.back), out _touch, _tipHeight, whiteboardMask))
+        else if (Physics.Raycast(_point.position, transform.TransformDirection(Vector3.back), out touch, _pointHeight, whiteboardMask))
         {   
-            Debug.DrawRay(_tip.position, transform.TransformDirection(Vector3.back) * 20, Color.black);
             Pintar();
         }
-        else if (Physics.Raycast(_tip.position, transform.TransformDirection(Vector3.down), out _touch, _tipHeight, whiteboardMask))
+        else if (Physics.Raycast(_point.position, transform.TransformDirection(Vector3.down), out touch, _pointHeight, whiteboardMask))
         {   
-            Debug.DrawRay(_tip.position, transform.TransformDirection(Vector3.down) * 20, Color.yellow);
             Pintar();
         }
         else 
         {
-        _whiteboard = null;
-        _touchedLastFrame = false;
+        whiteboard = null;
+        LastFrametouched = false;
         }
 
         
-        Debug.DrawRay(_tip.position, transform.TransformDirection(Vector3.up) * 100, Color.red);
-        Debug.DrawRay(_tip.position, transform.TransformDirection(Vector3.forward) * 100, Color.blue);
-        Debug.DrawRay(_tip.position, transform.TransformDirection(Vector3.right) * 100, Color.green);
-        Debug.DrawRay(_tip.position, transform.TransformDirection(Vector3.left) * 100, Color.white);
-        Debug.DrawRay(_tip.position, transform.TransformDirection(Vector3.back) * 100, Color.black);
-        Debug.DrawRay(_tip.position, transform.TransformDirection(Vector3.down) * 100, Color.yellow);
+        Debug.DrawRay(_point.position, transform.TransformDirection(Vector3.up) * 100, Color.red);
+        Debug.DrawRay(_point.position, transform.TransformDirection(Vector3.forward) * 100, Color.blue);
+        Debug.DrawRay(_point.position, transform.TransformDirection(Vector3.right) * 100, Color.green);
+        Debug.DrawRay(_point.position, transform.TransformDirection(Vector3.left) * 100, Color.white);
+        Debug.DrawRay(_point.position, transform.TransformDirection(Vector3.back) * 100, Color.black);
+        Debug.DrawRay(_point.position, transform.TransformDirection(Vector3.down) * 100, Color.yellow);
 
        
 
@@ -132,131 +126,120 @@ public class HandPainter : MonoBehaviour
             activated = false;
         }
     }
-
-    private void SliderChangeHP()
-    {
-        transformSlider = scaleSlider.value;
-        scale = new Vector3(transformSlider, transformSlider, transformSlider);
-        this.transform.localScale = scale;
-        tip_bulk = (int)(scale.x * 15);
-        _colors = Enumerable.Repeat(_renderer.material.color, tip_bulk * tip_bulk).ToArray();
-        _tipHeight = _tip.localScale.y;
+    private void ColorChangeHP(){
+        render.material.color = fcp.color;
+        colors = Enumerable.Repeat(render.material.color, tip_bulk * tip_bulk).ToArray();
 
     }
-    private void ColorChangeHP(){
-        _renderer.material.color = fcp.color;
-        _colors = Enumerable.Repeat(_renderer.material.color, tip_bulk * tip_bulk).ToArray();
-
+    private void UpdateLineRenderer(Vector3 start, Vector3 end)
+    {
+        _lineRenderer.SetPosition(0, start);
+        _lineRenderer.SetPosition(1, end);
     }
     private void Draw()
     {
         // Check if the draw action is pressed
-        if (drawAction.ReadValue<float>() > 0.1f)
-        {
-            // Perform the raycast to paint from a distance
-            if (Physics.Raycast(_tip.position, transform.TransformDirection(Vector3.up), out hit, rayLength, whiteboardMask))
+        if (Physics.Raycast(_point.position, transform.TransformDirection(Vector3.up), out hit, rayLength, whiteboardMask))
             {
-                PintarDistancia();
-                Debug.Log("Button A pressed");
+                UpdateLineRenderer(_point.position, hit.point);
+                if (drawAction.ReadValue<float>() > 0.1f)
+                     {
+
+                        PintarDistancia();
+                     }
+                else
+                {
+                    whiteboard = null;
+                    hitLastFrame = false;
+                }
             }
-        }
-        else
-        {
-            _whiteboard = null;
-            hitLastFrame = false;
-        }
+        
     }
     private void Pintar()
     {
-        if (_touch.transform.CompareTag("Whiteboard"))
+        if (touch.transform.CompareTag("Whiteboard"))
         {
-            _colors = Enumerable.Repeat(_renderer.material.color, tip_bulk * tip_bulk).ToArray();
-            
-            if (_whiteboard == null)
+            if (whiteboard == null)
             {
-                _whiteboard = _touch.transform.GetComponent<Whiteboard>();
+                whiteboard = touch.transform.GetComponent<Whiteboard>();
             }
-            hitPos = new Vector2(_touch.textureCoord.x, _touch.textureCoord.y);
+            Postouch = new Vector2(touch.textureCoord.x, touch.textureCoord.y);
 
-            var x = (int)(_touchPos.x * _whiteboard.textureSize.x - (tip_bulk / 2));
-            var y = (int)(_touchPos.y * _whiteboard.textureSize.y - (tip_bulk / 2));
+            var x = (int)(Postouch.x * whiteboard.textureSize.x - (tip_bulk / 2));
+            var y = (int)(Postouch.y * whiteboard.textureSize.y - (tip_bulk / 2));
 
-            if (y < 0 || y > _whiteboard.textureSize.y || x < 0 || x > _whiteboard.textureSize.x) return;
+            if (y < 0 || y > whiteboard.textureSize.y || x < 0 || x > whiteboard.textureSize.x) return;
                
-            if (_touchedLastFrame)
+            if (LastFrametouched)
             {
-                
-              
-                _whiteboard.texture.SetPixels(x, y, tip_bulk, tip_bulk, _colors);
+                whiteboard.texture.SetPixels(x, y, tip_bulk, tip_bulk, colors);
 
                 for (float f = 0.01f; f < 1.00f; f += 0.01f)
                 {
-                    var lerpX = (int)Mathf.Lerp(_lastTouchPos.x, x, f);
-                    var lerpY = (int)Mathf.Lerp(_lastTouchPos.y, y, f);
-                    _whiteboard.texture.SetPixels(lerpX, lerpY, tip_bulk, tip_bulk, _colors);
+                    var lerpX = (int)Mathf.Lerp(LastPostouched.x, x, f);
+                    var lerpY = (int)Mathf.Lerp(LastPostouched.y, y, f);
+                    whiteboard.texture.SetPixels(lerpX, lerpY, tip_bulk, tip_bulk, colors);
                 }
 
-                transform.rotation = _lastTouchRot;
+                transform.rotation = LastRottouched;
 
-                _whiteboard.texture.Apply();
+                whiteboard.texture.Apply();
             }
 
-            _lastTouchPos = new Vector2(x, y);
-            _lastTouchRot = transform.rotation;
-            _touchedLastFrame = true;
+            LastPostouched = new Vector2(x, y);
+            LastRottouched = transform.rotation;
+            LastFrametouched = true;
 
             return;
 
 
         }
-         _whiteboard = null;
-        _touchedLastFrame = false;
+        whiteboard = null;
+        LastFrametouched = false;
     }
     private void PintarDistancia()
     {
         if (hit.transform.CompareTag("Whiteboard"))
         {
-            Debug.Log("Entra 1");
-            _colors = Enumerable.Repeat(_renderer.material.color, tip_bulk * tip_bulk).ToArray();
-            if (_whiteboard == null)
+            colors = Enumerable.Repeat(render.material.color, tip_bulk * tip_bulk).ToArray();
+            if (whiteboard == null)
             {
-                _whiteboard = hit.transform.GetComponent<Whiteboard>();
+                whiteboard = hit.transform.GetComponent<Whiteboard>();
             }
-            hitPos = new Vector2(hit.textureCoord.x, hit.textureCoord.y);
+            Posthits = new Vector2(hit.textureCoord.x, hit.textureCoord.y);
             Debug.Log(hit.textureCoord.x);
             Debug.Log(hit.textureCoord.y);
-            var x = (int)(hitPos.x * _whiteboard.textureSize.x - (tip_bulk / 2));
-            var y = (int)(hitPos.y * _whiteboard.textureSize.y - (tip_bulk / 2));
+            var x = (int)(Posthits.x * whiteboard.textureSize.x - (tip_bulk / 2));
+            var y = (int)(Posthits.y * whiteboard.textureSize.y - (tip_bulk / 2));
 
-            if (y < 0 || y > _whiteboard.textureSize.y || x < 0 || x > _whiteboard.textureSize.x) return;
+            if (y < 0 || y > whiteboard.textureSize.y || x < 0 || x > whiteboard.textureSize.x) return;
                
             if (hitLastFrame)
             {
                 
-               Debug.Log("Entra 2");
-                _whiteboard.texture.SetPixels(x, y, tip_bulk, tip_bulk, _colors);
+                whiteboard.texture.SetPixels(x, y, tip_bulk, tip_bulk, colors);
 
                 for (float f = 0.01f; f < 1.00f; f += 0.01f)
                 {
-                    var lerpX = (int)Mathf.Lerp(_lasthitPos.x, x, f);
-                    var lerpY = (int)Mathf.Lerp(_lasthitPos.y, y, f);
-                    _whiteboard.texture.SetPixels(lerpX, lerpY, tip_bulk, tip_bulk, _colors);
+                    var lerpX = (int)Mathf.Lerp(LastPosHitted.x, x, f);
+                    var lerpY = (int)Mathf.Lerp(LastPosHitted.y, y, f);
+                    whiteboard.texture.SetPixels(lerpX, lerpY, tip_bulk, tip_bulk, colors);
                 }
 
-                transform.rotation = _lasthitRot;
+                transform.rotation = LastRotHitted;
 
-                _whiteboard.texture.Apply();
+                whiteboard.texture.Apply();
             }
 
-            _lasthitPos = new Vector2(x, y);
-            _lasthitRot = transform.rotation;
+            LastPosHitted = new Vector2(x, y);
+            LastRotHitted = transform.rotation;
             hitLastFrame = true;
 
             return;
 
 
         }
-         _whiteboard = null;
+        whiteboard = null;
         hitLastFrame = false;
     }
 }
