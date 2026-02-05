@@ -106,9 +106,9 @@ El proyecto se centró en desarrollar interacciones naturales e intuitivas para 
 
 **Antonio Palencia Cañas**  
 Ingeniero Multimedia
-📧 apc.dpc.palens@gmail.com  
+📧 apc.dpc.palens@gmail.com
 💼 [LinkedIn](https://www.linkedin.com/in/antonio-palencia-7a242a328/)  
-🐙 [GitHub](https://github.com/palens22)
+
 
 ---
 
